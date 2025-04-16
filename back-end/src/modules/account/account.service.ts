@@ -21,19 +21,6 @@ export class AccountService {
       throw new BadRequestException("Không tìm thấy role Id");
     }
   
-    // Kiểm tra xem tài khoản admin_id hoặc user_id đã tồn tại chưa
-    const existingAccount = await this.prisma.account.findFirst({
-      where: {
-        OR: [
-          { admin_id },
-          { user_id }
-        ]
-      }
-    });
-  
-    if (existingAccount) {
-      throw new BadRequestException("Tài khoản với admin_id hoặc user_id đã tồn tại");
-    }
   
     // Mã hóa mật khẩu
     const hashedPassword = await bcrypt.hash(password, 10);

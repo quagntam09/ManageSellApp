@@ -21,18 +21,25 @@ export class UserService {
       admin_id: null,
       user_id: id,
       role_id: userrole.role_id
-      
     }
 
     await this.prisma.user.create({
       data: {
         id: id,
         user_name: data.username,
-        vip: data.vip,
+        vip: Number(data.vip),
         email: data.email
       }
     });
 
     await this.accountService.createAccount(accountData,password)
+    return {
+      message: 'Tạo user và account thành công',
+      user_id: id
+    }
+  }
+
+  public async getAllUser(){
+    return this.prisma.user.findMany()
   }
 }
