@@ -1,26 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import {roles} from '../../configs/config.json'
+import { AccountService } from '../account/account.service';
+import { CreateAccountDto } from '../account/dto/create-account.dto';
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
-    createUser(createUserDto: CreateUserDto) {
-      return this.prisma.user.create({
-        data: createUserDto,
-      });
+  constructor(private readonly prisma: PrismaService,
+    private readonly accountService: AccountService
+  ) {}
+  public async createUser(data: CreateUserDto){
+    const {password, id, ...res} = data;
+
+    const userrole = roles.find((r) => r.role_name === "user");
+    if(!userrole){
+      throw new BadRequestException("Không tìm thấy role user");
     }
-  
-    findAllUser() {
-      return this.prisma.user.findMany({
-        include: { posts: true },
-      });
+
+    const accountData: CreateAccountDto = {
+      admin_id: null,
+      user_id: id,
+      role_id: userrole.role_id
+      
     }
-  
-    findOneUser(id: number) {
-      return this.prisma.user.findUnique({
-        where: { id },
-        include: { posts: true },
-      });
-    }
+
+    await this.prisma.user.create({
+      data: {
+        id: id,
+        user_name: data.username,
+        vip: data.vip,
+        email: data.email
+      }
+    });
+
+    await this.accountService.createAccount(accountData,password)
+  }
 }

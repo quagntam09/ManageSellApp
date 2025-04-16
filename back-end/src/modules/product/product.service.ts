@@ -11,23 +11,5 @@ export class ProductService {
     });
   }
 
-  findAllProduct() {
-    return this.prisma.product.findMany({
-      include: { categories: true },
-    });
-  }
-
-  findOneProduct(id: number) {
-    return this.prisma.product.findUnique({
-      where: { id },
-      include: { categories: true },
-    });
-  }
-
-  updateProduct(id: number, updateProductDto: UpdateProductDto) {
-    return this.prisma.product.update({
-      where: { id },
-      data: updateProductDto,
-    });
-  }
+ 
 }
