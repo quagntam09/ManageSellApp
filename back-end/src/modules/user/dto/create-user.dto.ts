@@ -7,15 +7,15 @@ export class CreateUserDto {
 
     @IsString()
     @IsNotEmpty()
-    username: string;
-
-    @IsNumber()
-    @IsNotEmpty()
-    vip?: number;
+    user_name: string;
 
     @IsString()
     @IsNotEmpty()
     email: string;
+
+    @IsString()
+    @IsNotEmpty()
+    phone: string;
 
     @IsString()
     @IsNotEmpty()

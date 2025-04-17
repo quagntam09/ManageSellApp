@@ -7,6 +7,9 @@ export class CreateAccountDto {
     @IsString()
     user_id: string | null;
 
+    @IsString()
+    shiper_id: string | null;
+
     @IsNotEmpty()
     @IsNumber()
     role_id: number;

@@ -4,6 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import {roles} from '../../configs/config.json'
 import { AccountService } from '../account/account.service';
 import { CreateAccountDto } from '../account/dto/create-account.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService,
@@ -18,6 +19,7 @@ export class UserService {
     }
 
     const accountData: CreateAccountDto = {
+      shiper_id: null,
       admin_id: null,
       user_id: id,
       role_id: userrole.role_id
@@ -26,9 +28,7 @@ export class UserService {
     await this.prisma.user.create({
       data: {
         id: id,
-        user_name: data.username,
-        vip: Number(data.vip),
-        email: data.email
+        ...res
       }
     });
 
@@ -47,7 +47,23 @@ export class UserService {
     return this.prisma.user.findUnique({where: {id}});
   }
 
-  public async updateUser(id: string, data: CreateUserDto){
-    return this.prisma.user.update({where: {id}, data});
+  public async updateUser(id: string, data: UpdateUserDto) {
+    // Kiểm tra nếu data không có nội dung
+    if (!data || Object.keys(data).length === 0) {
+      throw new BadRequestException('Không có dữ liệu để cập nhật');
+    }
+  
+    // Cập nhật người dùng với dữ liệu truyền vào
+    return this.prisma.user.update({
+      where: {
+        id: id,  // Sử dụng id từ tham số
+      },
+      data: {
+        ...data,  // Truyền các trường cần cập nhật từ data
+      },
+    });
+  }
+  async deleteUser(id: string){
+    return this.prisma.user.delete({where: {id}})
   }
 }

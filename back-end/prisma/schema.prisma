@@ -7,6 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Status {
+  PENDING
+  PASSED
+  FAILED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+}
+
 model Role {
   id        Int    @id
   role_name String @unique @db.VarChar(50)
@@ -18,10 +29,22 @@ model User {
   id        String @id
   user_name String
   email     String @unique
-  vip       Int?
+  phone     String    @unique
+  vip       Int    @default(0)
 
   account Account?
   order   Order[]
+}
+
+model Shipper {
+  id              String @id
+  shipper_name    String
+  phone           String @unique
+  deliveredOrders Int    @default(0)
+  totalEarnings   Float  @default(0.0)
+
+  account Account[]
+  orders  Order[]
 }
 
 model Admin {
@@ -31,15 +54,17 @@ model Admin {
 }
 
 model Account {
-  id       String  @id @default(uuid())
-  password String
-  admin_id String? @unique
-  user_id  String? @unique
+  id        String  @id @default(uuid())
+  password  String
+  admin_id  String? @unique
+  user_id   String? @unique
+  shiper_id String? @unique
 
   roleId Int
-  role   Role   @relation(fields: [roleId], references: [id])
-  user   User?  @relation(fields: [user_id], references: [id])
-  admin  Admin? @relation(fields: [admin_id], references: [id])
+  role   Role     @relation(fields: [roleId], references: [id])
+  user   User?    @relation(fields: [user_id], references: [id])
+  admin  Admin?   @relation(fields: [admin_id], references: [id])
+  shiper Shipper? @relation(fields: [shiper_id], references: [id])
 }
 
 model Product {
@@ -54,11 +79,19 @@ model Product {
 }
 
 model Order {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
+  id            String        @id @default(cuid())
+  createdAt     DateTime      @default(now())
+  address       String
+  status        Status        @default(PENDING)
+  totalPrice    Float
+  shippingFee   Float         @default(0)
+  paymentStatus PaymentStatus @default(UNPAID)
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  shipperId String?
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shipper Shipper? @relation(fields: [shipperId], references: [id], onDelete: SetNull)
 
   orderDetails OrderDetail[]
 }
