@@ -13,4 +13,15 @@ export class UserController {
   getAllUser(){
     return this.userService.getAllUser();
   }
+
+  @Get(":id")
+  getUserById(@Param("id") id: string){
+    return this.userService.getUserById(id);
+  }
+
+
+  @Patch(":id")
+  updateUser(@Param("id") id: string, data: CreateUserDto){
+    return this.userService.updateUser(id,data);
+  }
 }

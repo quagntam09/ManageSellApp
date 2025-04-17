@@ -42,4 +42,12 @@ export class UserService {
   public async getAllUser(){
     return this.prisma.user.findMany()
   }
+
+  public async getUserById(id: string){
+    return this.prisma.user.findUnique({where: {id}});
+  }
+
+  public async updateUser(id: string, data: CreateUserDto){
+    return this.prisma.user.update({where: {id}, data});
+  }
 }

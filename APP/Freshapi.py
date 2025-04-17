@@ -14,7 +14,7 @@ data = {
     "password": "password123"
 }
 
-
+    
 # Gửi yêu cầu POST để tạo người dùng mới
 response = requests.post(urlpostUser, json= data)  # Gửi dưới dạng JSON
 if response.status_code == 201:  # Kiểm tra xem người dùng đã được tạo thành công hay chưa

@@ -10,6 +10,19 @@ export class ProductService {
       data: createProductDto,
     });
   }
+  updateProduct(id: string,createProductDto: CreateProductDto){
+    return this.prisma.product.update({where: {id}, data: createProductDto})
+  }
 
- 
+  deleteProduct(id: string){
+    return this.prisma.product.delete({where: {id}})
+  }
+
+  getAllProduct(){
+    return this.prisma.product.findMany();
+  }
+
+  getProductById(id: string){
+    return this.prisma.product.findUnique({where: {id}})
+  }
 }
