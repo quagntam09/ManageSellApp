@@ -1,17 +1,21 @@
 import requests
 import json
+from DataApi import apiApp
 
-# Định nghĩa URL cho GET và POST
-urlUser = 'http://localhost:3000/user/100'
-urlShipper = 'http://localhost:3000/shipper'
-
-data = {
-    "id": "003",
-    "shipper_name": "Nguyen Phuc Kien",
-    "phone": "0909091",
-    "password": "password123"
-}
-request = requests.post(url=urlShipper, json= data)
+url = apiApp()
+data =         {
+            "userId": "004",
+            "address": "tphcm",
+            "totalPrice": 50000,
+            "shippingFee": 5500,
+            "products": [
+                {   
+                    "productId": "cm9n09kpe0000vcn827z7fm9v",
+                    "quantity": 10
+                }
+            ]
+        }
+request = requests.get(url=url.apiOrder, json= data)
 
 print(request.json())
 

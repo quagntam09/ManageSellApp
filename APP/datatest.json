@@ -1,0 +1,43 @@
+{
+    "product":[
+        {
+            "name": "Mì",
+            "description": "...",
+            "category": "...",
+            "price": 5000,
+            "stock": 100
+        },
+        {
+            "name": "Hộp Sữa",
+            "description": "...",
+            "category": "...",
+            "price": 50000,
+            "stock": 100
+        }
+    ]
+    ,
+    "order":[
+        {
+            "userId": "004",
+            "address": "tphcm",
+            "totalPrice": 50000,
+            "shippingFee": 5500,
+            "products": [
+                {   
+                    "productId": "cm9n09kpe0000vcn827z7fm9v",
+                    "quantity": 10
+                }
+            ]
+        }
+    ],
+    "user":
+    {
+        "id": "004",
+        "user_name": "Nguyen Van a",
+        "phone": "0000001",
+        "email": "nguyea@gmail.com",
+        "password": "password123"
+    }
+
+    
+}
