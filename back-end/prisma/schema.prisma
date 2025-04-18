@@ -29,7 +29,7 @@ model User {
   id        String @id
   user_name String
   email     String @unique
-  phone     String    @unique
+  phone     String @unique
   vip       Int    @default(0)
 
   account Account?
@@ -54,17 +54,17 @@ model Admin {
 }
 
 model Account {
-  id        String  @id @default(uuid())
-  password  String
-  admin_id  String? @unique
-  user_id   String? @unique
-  shiper_id String? @unique
+  id         String  @id @default(uuid())
+  password   String
+  admin_id   String? @unique
+  user_id    String? @unique
+  shipper_id String? @unique
 
-  roleId Int
-  role   Role     @relation(fields: [roleId], references: [id])
-  user   User?    @relation(fields: [user_id], references: [id])
-  admin  Admin?   @relation(fields: [admin_id], references: [id])
-  shiper Shipper? @relation(fields: [shiper_id], references: [id])
+  roleId  Int
+  role    Role     @relation(fields: [roleId], references: [id])
+  user    User?    @relation(fields: [user_id], references: [id])
+  admin   Admin?   @relation(fields: [admin_id], references: [id])
+  shipper Shipper? @relation(fields: [shipper_id], references: [id])
 }
 
 model Product {

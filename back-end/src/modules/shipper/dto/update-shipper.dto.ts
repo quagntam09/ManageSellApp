@@ -1,6 +1,6 @@
 
 import { IsNumber, IsString } from "class-validator";
-export class UpdateShiperDto{
+export class UpdateShipperDto{
     @IsString()
     shipper_name?: string;
 

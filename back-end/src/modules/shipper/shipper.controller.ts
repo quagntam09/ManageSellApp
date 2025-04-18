@@ -1,15 +1,15 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ShiperService } from './shiper.service';
-import { CreateShiperDto } from './dto/create-shiper.dto';
-import { UpdateShiperDto } from './dto/update-shiper.dto';
+import { ShipperService } from './shipper.service';
+import { CreateShipperDto } from './dto/create-shipper.dto';
+import { UpdateShipperDto } from './dto/update-shipper.dto';
 import { UpdateAccountDto } from '../account/dto/update-account.dto';
 
 @Controller('shipper')
-export class ShiperController {
-  constructor(private readonly shipperService: ShiperService) {}
+export class ShipperController {
+  constructor(private readonly shipperService: ShipperService) {}
 
   @Post()
-  createShipper(@Body() createShiperDto: CreateShiperDto) {
+  createShipper(@Body() createShiperDto: CreateShipperDto) {
     return this.shipperService.createShiper(createShiperDto);
   }
 
@@ -24,7 +24,7 @@ export class ShiperController {
   }
 
   @Patch(":id")
-  updateShipper(@Param("id") id: string,@Body() data: UpdateShiperDto){
+  updateShipper(@Param("id") id: string,@Body() data: UpdateShipperDto){
     return this.shipperService.uppdateShipper(id, data);
   }
 

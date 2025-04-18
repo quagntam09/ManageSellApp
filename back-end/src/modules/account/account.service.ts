@@ -8,10 +8,10 @@ export class AccountService {
     private readonly prisma: PrismaService
   ){}
   public async createAccount(data: CreateAccountDto, password: string) {
-    const { admin_id, user_id, role_id, shiper_id } = data;
+    const { admin_id, user_id, role_id, shipper_id } = data;
   
     // Kiểm tra xem có thiếu cả admin_id và user_id không
-    if (!admin_id && !user_id && !shiper_id) {
+    if (!admin_id && !user_id && !shipper_id) {
       throw new BadRequestException("Không nhận được id tạo account");
     }
   
@@ -31,7 +31,7 @@ export class AccountService {
         password: hashedPassword,
         admin_id,
         user_id,
-        shiper_id,
+        shipper_id,
         roleId: role_id
       }
     });

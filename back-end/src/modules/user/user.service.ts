@@ -19,7 +19,7 @@ export class UserService {
     }
 
     const accountData: CreateAccountDto = {
-      shiper_id: null,
+      shipper_id: null,
       admin_id: null,
       user_id: id,
       role_id: userrole.role_id

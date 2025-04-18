@@ -1,21 +1,21 @@
 import { Injectable, BadRequestException, InternalServerErrorException, NotFoundException, Logger } from '@nestjs/common';
-import { CreateShiperDto } from './dto/create-shiper.dto';
-import { UpdateShiperDto } from './dto/update-shiper.dto';
+import { CreateShipperDto } from './dto/create-shipper.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { roles } from '../../configs/config.json';
 import { CreateAccountDto } from '../account/dto/create-account.dto';
 import { AccountService } from '../account/account.service';
+import { UpdateShipperDto } from './dto/update-shipper.dto';
 
 @Injectable()
-export class ShiperService {
-  private readonly logger = new Logger(ShiperService.name);
+export class ShipperService {
+  private readonly logger = new Logger(ShipperService.name);
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly accountservice: AccountService
   ) {}
 
-  async createShiper(data: CreateShiperDto) {
+  async createShiper(data: CreateShipperDto) {
     try {
       const { password, id, ...res } = data;
 
@@ -30,7 +30,7 @@ export class ShiperService {
       }
 
       const accountData: CreateAccountDto = {
-        shiper_id: id,
+        shipper_id: id,
         admin_id: null,
         user_id: null,
         role_id: shiperrole.role_id,
@@ -77,7 +77,7 @@ export class ShiperService {
     }
   }
 
-  async uppdateShipper(id: string, data: UpdateShiperDto) {
+  async uppdateShipper(id: string, data: UpdateShipperDto) {
     try {
       if (!data || Object.keys(data).length === 0) {
         throw new BadRequestException('Không có dữ liệu cập nhật được gửi lên');

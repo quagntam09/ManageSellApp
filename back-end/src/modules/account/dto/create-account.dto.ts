@@ -8,7 +8,7 @@ export class CreateAccountDto {
     user_id: string | null;
 
     @IsString()
-    shiper_id: string | null;
+    shipper_id: string | null;
 
     @IsNotEmpty()
     @IsNumber()

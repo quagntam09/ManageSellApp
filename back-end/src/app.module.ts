@@ -6,9 +6,9 @@ import { OrderModule } from './modules/order/order.module';
 import { OrderDetailModule } from './modules/order-detail/order-detail.module';
 import { AccountModule } from './modules/account/account.module';
 import { AdminModule } from './modules/admin/admin.module';
-import { ShiperModule } from './modules/shiper/shiper.module';
+import { ShipperModule } from './modules/shipper/shipper.module';
 
 @Module({
-  imports: [ProductModule, UserModule, OrderModule, OrderDetailModule, AccountModule, AdminModule, ShiperModule],
+  imports: [ProductModule, UserModule, OrderModule, OrderDetailModule, AccountModule, AdminModule, ShipperModule],
 })
 export class AppModule {}
