@@ -8,10 +8,6 @@ import { UpdateAccountDto } from '../account/dto/update-account.dto';
 export class ShipperController {
   constructor(private readonly shipperService: ShipperService) {}
 
-  @Post()
-  createShipper(@Body() createShiperDto: CreateShipperDto) {
-    return this.shipperService.createShiper(createShiperDto);
-  }
 
   @Get(":id")
   getShipperById(@Param("id") id:string){

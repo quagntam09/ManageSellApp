@@ -19,52 +19,51 @@ enum PaymentStatus {
 }
 
 model Role {
-  id        Int    @id
+  id        String    @id
   role_name String @unique @db.VarChar(50)
 
   account Account[]
 }
 
 model User {
-  id        String @id
+  id        String @id @default(uuid())
   user_name String
-  email     String @unique
   phone     String @unique
   vip       Int    @default(0)
 
-  account Account?
-  order   Order[]
+  account   Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId String?  @unique
+  order     Order[]
 }
 
 model Shipper {
-  id              String @id
+  id              String @id @default(uuid())
   shipper_name    String
   phone           String @unique
   deliveredOrders Int    @default(0)
   totalEarnings   Float  @default(0.0)
 
-  account Account[]
-  orders  Order[]
+  account   Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId String?  @unique
+  orders    Order[]
 }
 
 model Admin {
-  id         String    @id
+  id         String   @id @default(uuid())
   admin_name String
-  account    Account[]
+  account    Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId  String?  @unique
 }
 
 model Account {
-  id         String  @id @default(uuid())
-  password   String
-  admin_id   String? @unique
-  user_id    String? @unique
-  shipper_id String? @unique
+  id       String @id
+  password String
+  roleId   String
+  role     Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
-  roleId  Int
-  role    Role     @relation(fields: [roleId], references: [id])
-  user    User?    @relation(fields: [user_id], references: [id])
-  admin   Admin?   @relation(fields: [admin_id], references: [id])
-  shipper Shipper? @relation(fields: [shipper_id], references: [id])
+  user    User?
+  admin   Admin?
+  shipper Shipper?
 }
 
 model Product {
@@ -97,8 +96,8 @@ model Order {
 }
 
 model OrderDetail {
-  id        String   @id @default(cuid())
-  quantity  Int
+  id       String @id @default(cuid())
+  quantity Int
 
   orderId   String
   productId String

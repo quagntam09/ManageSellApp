@@ -10,34 +10,7 @@ export class UserService {
   constructor(private readonly prisma: PrismaService,
     private readonly accountService: AccountService
   ) {}
-  public async createUser(data: CreateUserDto){
-    const {password, id, ...res} = data;
 
-    const userrole = roles.find((r) => r.role_name === "user");
-    if(!userrole){
-      throw new BadRequestException("Không tìm thấy role user");
-    }
-
-    const accountData: CreateAccountDto = {
-      shipper_id: null,
-      admin_id: null,
-      user_id: id,
-      role_id: userrole.role_id
-    }
-
-    await this.prisma.user.create({
-      data: {
-        id: id,
-        ...res
-      }
-    });
-
-    await this.accountService.createAccount(accountData,password)
-    return {
-      message: 'Tạo user và account thành công',
-      user_id: id
-    }
-  }
 
   public async getAllUser(){
     return this.prisma.user.findMany()

@@ -15,45 +15,7 @@ export class ShipperService {
     private readonly accountservice: AccountService
   ) {}
 
-  async createShiper(data: CreateShipperDto) {
-    try {
-      const { password, id, ...res } = data;
-
-      const shiperrole = roles.find((r) => r.role_name === 'shipper');
-      if (!shiperrole) {
-        throw new BadRequestException('Không tìm thấy role shipper');
-      }
-
-      const existing = await this.prisma.shipper.findUnique({ where: { id } });
-      if (existing) {
-        throw new BadRequestException('Shipper đã tồn tại');
-      }
-
-      const accountData: CreateAccountDto = {
-        shipper_id: id,
-        admin_id: null,
-        user_id: null,
-        role_id: shiperrole.role_id,
-      };
-
-      await this.prisma.shipper.create({
-        data: {
-          id: id,
-          ...res,
-        },
-      });
-
-      await this.accountservice.createAccount(accountData, password);
-
-      return {
-        message: 'Tạo shipper và account thành công',
-        user_id: id,
-      };
-    } catch (error) {
-      this.logger.error('Lỗi khi tạo shipper', error.stack);
-      throw new InternalServerErrorException(error.message || 'Lỗi tạo shipper');
-    }
-  }
+ 
 
   async getShipperById(id: string) {
     try {
