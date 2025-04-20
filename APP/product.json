@@ -1,0 +1,18 @@
+[
+    {
+        "id": "cm9n09kpe0000vcn827z7fm9v",
+        "name": "Mì",
+        "description": "...",
+        "price": 5000,
+        "stock": 100,
+        "category": "..."
+    },
+    {
+        "id": "cm9n09uc70001vcn89aiu3ohv",
+        "name": "Hộp Sữa",
+        "description": "...",
+        "price": 50000,
+        "stock": 100,
+        "category": "..."
+    }
+]
