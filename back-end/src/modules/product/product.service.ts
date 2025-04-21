@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { UpdateProductDto } from './dto/update-product.dto';
 @Injectable()
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
@@ -8,9 +9,6 @@ export class ProductService {
     return this.prisma.product.create({
       data: createProductDto,
     });
-  }
-  updateProduct(id: string,createProductDto: CreateProductDto){
-    return this.prisma.product.update({where: {id}, data: createProductDto})
   }
 
   deleteProduct(id: string){
@@ -23,5 +21,16 @@ export class ProductService {
 
   getProductById(id: string){
     return this.prisma.product.findUnique({where: {id}})
+  }
+
+  async updateProduct(data: UpdateProductDto[]){
+    await Promise.all(
+      data.map(({id, ...data}) =>
+        this.prisma.product.update({
+          where: {id},
+          data: data,
+        })
+      )
+    )
   }
 }

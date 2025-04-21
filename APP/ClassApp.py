@@ -1,46 +1,32 @@
 import requests
 import json
-# class User:
-#     def __init__(self, id, user_name, email, phone, password):
-#         self.id = id
-#         self.user_name = user_name
-#         self.email = email
-#         self.phone = phone
-#         self.vip = 0
-#         self.password = password
-#         self.apiUser = "http://localhost:3000/user"
-#     def to_dict_creat(self):
-#         return {
-#             "id": self.id,
-#             "user_name": self.user_name,
-#             "email": self.email,
-#             "phone": self.phone,
-#             "password": self.password
-#         }
-#     def to_dict_update(self):
-#         return {
-#             "user_name": self.user_name,
-#             "email": self.email,
-#             "phone": self.phone,
-#             "vip": self.vip
-#         }
-#     def GetUserById(self):
-#         request = requests.get(self.apiUser + f"/{self.id}")
-#         return request.json()
-#     def CreateUser(self):   
-#         request = requests.post(self.apiUser,json= self.to_dict_creat())
-#         return request.json()
-#     def UpdateUser(self, newdata = {}):
-#         self.user_name = newdata.get("user_name", self.user_name)
-#         self.email = newdata.get("email", self.email)
-#         self.phone = newdata.get("phone", self.phone)
-#         self.vip = newdata.get("vip", self.phone)
+class User:
+    def __init__(self, id, user_name, phone, vip, accountId):
+        self.id = id
+        self.user_name = user_name
+        self.phone = phone
+        self.vip = vip
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_name": self.user_name,
+            "phone": self.phone,
+            "vip": self.vip
+        }
+    def to_dict_update(self):
+        return {
+            "user_name": self.user_name,
+            "phone": self.phone,
+            "vip": self.vip
+        }
+    def update(self):
+        response = requests.patch(f"http://localhost:3000/user/{self.id}", json= self.to_dict_update())
+        if response.status_code == 200:
+            print("Update User Thành Công!")
+        else:
+            print("Update User Gặp Lỗi!")
 
-#         request = requests.patch(self.apiUser + f"/{self.id}", json= self.to_dict_update())
-#         return request.json()
-#     def DeleteUser(self):
-#         request = requests.delete(self.apiUser + f"/{self.id}")
-#         return request.json()
+
 
 # class Shipper:
 #     def __init__(self, id, shipper_name, phone, password):
@@ -105,23 +91,37 @@ class Product:
         }
 
 class DanhSach:
-    def __init__(self, danhsach = [], name = ""):
-        self.danhsach = danhsach
+    def __init__(self, name):
+        self.danhsach = []
         self.name = name
 
-    def ghiFile(self):
-        with open (f"{self.name}.json", "w", encoding= 'utf-8') as f:
-            json.dump(self.danhsach, f, indent= 4, ensure_ascii=False)
-            
-    
+    def GhiDanhSachVaoJson(self):
+        with open(f"{self.name}.json", "w", encoding='utf-8') as f:
+            json.dump([p.to_dict() for p in self.danhsach], f, indent=4, ensure_ascii=False)
 
-# data = requests.get("http://localhost:3000/product")
-# print(data.json())
+    def LayDanhSachProDuctTuDB(self):
+        response = requests.get(f"http://localhost:3000/{self.name}")
+        if response.status_code == 200:
+            data = response.json()
+            self.danhsach = [Product(**item) for item in data]
+            self.GhiDanhSachVaoJson()
+        else:
+            print("Lỗi khi lấy dữ liệu từ DB:", response.status_code)
+    def LayDanhSachUserTuDB(self):
+        response = requests.get(f"http://localhost:3000/{self.name}")
+        if response.status_code == 200:
+            data = response.json()
+            self.danhsach = [User(**item) for item in data]
+            self.GhiDanhSachVaoJson()
+        else:
+            print("Lỗi khi lấy dữ liệu từ DB:", response.status_code)
 
-# test = DanhSach(data.json(), "product")
-# test.ghiFile()
-with open ("product.json", "r", encoding= 'utf-8') as file:
-    data = json.load(file)
-    Listclassproduct = [Product(**product) for product in data]
+    def LuuDuLieuProductVaoDB(self):
+        with open(f"{self.name}.json", "r", encoding='utf-8') as file:
+            data = json.load(file)
+            self.danhsach = [Product(**product) for product in data]
+        dataDict = [x.to_dict() for x in self.danhsach]
+        requests.patch(f"http://localhost:3000/{self.name}", json= dataDict)
+        
 
-[print(product.to_dict()) for product in Listclassproduct]
+

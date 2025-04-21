@@ -1,14 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import {roles} from '../../configs/config.json'
-import { AccountService } from '../account/account.service';
-import { CreateAccountDto } from '../account/dto/create-account.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService,
-    private readonly accountService: AccountService
   ) {}
 
 

@@ -11,10 +11,11 @@ export class ProductController {
     return this.productService.createProduct(data);
   }
 
-  @Patch(":id")
-  updateProduct(@Param("id") id: string, data: CreateProductDto){
-    return this.productService.updateProduct(id,data);
+  @Patch()
+  updateProduct(@Body() data:UpdateProductDto[]){
+    return this.productService.updateProduct(data);
   }
+
 
   @Delete(":id")
   deleteProduct(@Param("id") id: string){
