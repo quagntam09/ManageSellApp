@@ -65,9 +65,10 @@ class ProductWindow:
 
         self.treeGioHang.pack(fill=tk.BOTH, expand=True)
 
-        # Nút Xóa dòng đã chọn
         btn_xoa = ttk.Button(self.frameGio, text="Xóa khỏi giỏ hàng", command=self.XoaKhoiGio)
         btn_xoa.pack(pady=5)
+        btn_dathang = ttk.Button(self.frameGio, text="Xác nhận đặt hàng", command=self.DatHang)
+        btn_dathang.pack(pady=5)
 
     def CapNhatGioHang(self):
         for row in self.treeGioHang.get_children():
@@ -75,27 +76,39 @@ class ProductWindow:
 
         for hang, sl in self.gio_hang:
             self.treeGioHang.insert("", "end", values=(hang.name, hang.description, sl, hang.price))
+    def DatHang(self):
+        if(len(self.gio_hang) > 0):
+            self.DanhSach.GhiDanhSachVaoJson()
+            self.gio_hang.clear()
+            self.CapNhatGioHang()
+            print("Đặt hàng thành công!")
+        else:
+            print("không có hàng trong giỏ hàng!")
 
     def XoaKhoiGio(self):
-        selected = self.treeGioHang.selection()
-        if not selected:
-            return
+        if(len(self.gio_hang) > 0):
+            selected = self.treeGioHang.selection()
+            if not selected:
+                print("Vui lòng chọn hàng muốn xóa khỏi giỏ!")
+                return 
 
-        item = self.treeGioHang.item(selected[0])
-        ten_hang = item["values"][0]
-        so_luong = item["values"][2]
+            item = self.treeGioHang.item(selected[0])
+            ten_hang = item["values"][0]
+            so_luong = item["values"][2]
 
-        # Tìm và xóa khỏi danh sách giỏ hàng
-        for i, (hang, sl) in enumerate(self.gio_hang):
-            if hang.name == ten_hang and sl == so_luong:
-                hang.stock += sl
-                del self.gio_hang[i]
-                widgets = self.widgets_hang.get(hang)
-                if widgets:
-                    widgets["stock_label"].config(text=str(hang.stock))
-                    widgets["spin"].config(to=hang.stock)
-                break
-        self.CapNhatGioHang()
+            for i, (hang, sl) in enumerate(self.gio_hang):
+                if hang.name == ten_hang and sl == so_luong:
+                    hang.stock += sl
+                    del self.gio_hang[i]
+                    widgets = self.widgets_hang.get(hang)
+                    if widgets:
+                        widgets["stock_label"].config(text=str(hang.stock))
+                        widgets["spin"].config(to=hang.stock)
+                    break
+            self.CapNhatGioHang()
+            print("Xóa hàng thành công")
+        else:
+            print("Giỏ hàng trống!")
 
 if __name__ == "__main__":
     root = tk.Tk()
