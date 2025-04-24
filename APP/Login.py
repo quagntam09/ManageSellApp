@@ -2,7 +2,7 @@ import requests
 import tkinter as tk
 from tkinter import messagebox,ttk
 import bcrypt
-
+from productWindow import ProductWindow
 class LoginWinDow(tk.Frame):
     def __init__(self, master, controller):
         super().__init__(master)
@@ -35,6 +35,11 @@ class LoginWinDow(tk.Frame):
 
             if is_correct and id == data.get("id"):
                 messagebox.showinfo("Login Success", "Welcome")
+                if(data.get("roleId") == "1001"):
+                    frame = ProductWindow(self.master, self.controller, data)
+                    self.controller.frames["ProductWindow"] = frame
+                    frame.grid(row=0, column=0, sticky="nsew") 
+                    self.controller.show_frame("ProductWindow")
             else:
                 messagebox.showerror("Login Failed", "Invalid username or password.")
         except requests.exceptions.RequestException as e:
@@ -71,8 +76,8 @@ class RegisterWindow(tk.Frame):
         self.name_entry.grid(row=row, column=1, columnspan=2)
 
         self.roles_display = {
-            "Người dùng": "user",
-            "Shipper": "shipper"
+            "Người dùng": "user"
+
         }
 
         row += 1
@@ -100,7 +105,7 @@ class RegisterWindow(tk.Frame):
             return
 
         role_value = self.roles_display.get(role_label)
-        role_id_map = {"user": "1001", "shipper": "1002"}
+        role_id_map = {"user": "1001"}
         role_id = role_id_map.get(role_value)
 
         if not role_id:

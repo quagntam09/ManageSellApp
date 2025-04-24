@@ -4,7 +4,7 @@
         "name": "Mì",
         "description": "...",
         "price": 5000,
-        "stock": 96,
+        "stock": 99,
         "category": "..."
     },
     {
@@ -12,7 +12,7 @@
         "name": "Hộp Sữa",
         "description": "...",
         "price": 50000,
-        "stock": 48,
+        "stock": 50,
         "category": "..."
     }
 ]

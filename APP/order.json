@@ -1,0 +1,12 @@
+{
+    "userId": "001",
+    "address": "none",
+    "totalPrice": 5000,
+    "shippingFee": 500.0,
+    "products": [
+        {
+            "productId": "cm9n09kpe0000vcn827z7fm9v",
+            "quantity": 1
+        }
+    ]
+}
