@@ -1,26 +1,35 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsString, IsNotEmpty, IsNumber, IsArray, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+
+class ProductDto {
+  @IsString()
+  @IsNotEmpty()
+  productId: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  quantity: number;
+}
 
 export class CreateOrderDto {
-    @IsString()
-    @IsNotEmpty()
-    userId: string;
+  @IsString()
+  @IsNotEmpty()
+  userId: string;
 
-    @IsString()
-    @IsNotEmpty()
-    address: string;
+  @IsString()
+  @IsNotEmpty()
+  address: string;
 
-    @IsNumber()
-    @IsNotEmpty()
-    totalPrice: number;
+  @IsNumber()
+  @IsNotEmpty()
+  totalPrice: number;
 
-    @IsNotEmpty()
-    @IsNumber()
-    shippingFee: number;
+  @IsNumber()
+  @IsNotEmpty()
+  shippingFee: number;
 
-    @IsNotEmpty()
-    products:{
-        productId: string;
-        quantity: number;
-    }[];
-    
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ProductDto)  // Chuyển đổi từng phần tử của mảng thành kiểu ProductDto
+  products: ProductDto[];
 }

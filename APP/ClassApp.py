@@ -89,6 +89,36 @@ class Product:
             "stock": self.stock,
             "category": self.category
         }
+    
+class Order:
+    def __init__(self, id, createdAt, address, status, totalPrice, shippingFee, paymentStatus, userId, shipperId):
+        self.id = id
+        self.userId = userId
+        self.ShipperId = shipperId
+        self.address = address
+        self.totalPrice = totalPrice
+        self.shippingFee = shippingFee
+        self.creatAt = createdAt
+        self.status = status
+        self.paymentStatus = paymentStatus
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "userId": self.userId,
+            "shipperId": self.ShipperId,
+            "address": self.address,
+            "totalPrice": self.totalPrice,
+            "shippingFee": self.shippingFee,
+            "creatAt": self.creatAt,
+            "status": self.status,
+            "paymentStatus": self.paymentStatus
+        }
+    
+    # def updateStatus(self, id):
+    #     response = requests.patch(f"http://localhost:3000/order/Status/{id}")
+    #     if response.status_code == 200:
+    #         print("Cập nhật trạng thái thành công!")
 
 class DanhSach:
     def __init__(self, name):
@@ -116,7 +146,16 @@ class DanhSach:
         else:
             print("Lỗi khi lấy dữ liệu từ DB:", response.status_code)
 
-    def LuuDuLieuProductVaoDB(self):
+    def LayDanhSachOrderTuDB(self):
+        response = requests.get(f"http://localhost:3000/{self.name}")
+        if response.status_code == 200:
+            data = response.json()
+            print(data)
+            self.danhsach = [Order(**item) for item in data]
+            self.GhiDanhSachVaoJson()
+        else:
+            print("Lỗi khi lấy dữ liệu từ DB:", response.status_code)
+    def UpdateDuLieuProductVaoDB(self):
         with open(f"{self.name}.json", "r", encoding='utf-8') as file:
             data = json.load(file)
             self.danhsach = [Product(**product) for product in data]

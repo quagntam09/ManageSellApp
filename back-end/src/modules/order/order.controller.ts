@@ -8,11 +8,7 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
   @Post()
   createOrder(@Body() data: CreateOrderDto){
-    return this.orderService.creatOrder(data);
-  }
-  @Get(":id")
-  getOrderById(@Param("id") id: string){
-    return this.orderService.getOrderById(id);
+    return this.orderService.creatOrder(data);  
   }
   @Get()
   getAllOrder(){

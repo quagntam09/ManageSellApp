@@ -12,11 +12,6 @@ export class UserController {
     return this.userService.getAllUser();
   }
 
-  @Get(":id")
-  getUserById(@Param("id") id: string){
-    return this.userService.getUserById(id);
-  }
-
 
   @Patch(":id")
   updateUser(@Param("id") id: string,@Body() data: UpdateUserDto){
@@ -27,4 +22,9 @@ export class UserController {
   deleteUser(@Param("id") id:string){
     return this.userService.deleteUser(id)
   }
+  @Get(":accountId")
+  getUserByAccountId(@Param("accountId") accountId: string){
+    return this.userService.getUserByAccountId(accountId)
+  }
+
 }

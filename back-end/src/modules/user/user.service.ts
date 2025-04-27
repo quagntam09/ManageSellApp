@@ -34,4 +34,10 @@ export class UserService {
   async deleteUser(id: string){
     return this.prisma.user.delete({where: {id}})
   }
+
+  public async getUserByAccountId(id: string){
+    return this.prisma.user.findUnique({
+      where: {accountId: id}
+    })
+  }
 }

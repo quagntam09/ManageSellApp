@@ -1,17 +1,19 @@
 import tkinter as tk
 from tkinter import ttk
-from ClassApp import DanhSach
+from ClassApp import DanhSach, Order
+import requests
 import json
-class ProductWindow(tk.Frame):
+
+class UserWindow(tk.Frame):
     def __init__(self, master, controller, user):
         super().__init__(master)
         self.controller = controller
-        self.DanhSach = DanhSach("product")
-        self.DanhSach.LayDanhSachProDuctTuDB()
+        self.DanhSachHangHoa = DanhSach("product")
+        self.DanhSachHangHoa.LayDanhSachProDuctTuDB()
         self.user = user
         self.gio_hang = []  # [(hang, so_luong)]
         self.widgets_hang = {}  # Lưu lại widget theo từng hàng hóa
-
+        self.DanhSachOrder = DanhSach("order")
         self.BangHangHoa()
         self.BangGioHang()
 
@@ -19,7 +21,7 @@ class ProductWindow(tk.Frame):
         self.frameHangHoa = ttk.LabelFrame(self, text="Danh sách hàng hóa")
         self.frameHangHoa.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-        for hang in self.DanhSach.danhsach:
+        for hang in self.DanhSachHangHoa.danhsach:
             self.TaoDongHangHoa(hang)
 
     def TaoDongHangHoa(self, hang):
@@ -78,28 +80,35 @@ class ProductWindow(tk.Frame):
             self.treeGioHang.insert("", "end", values=(hang.name, hang.description, sl, hang.price))
     def DatHang(self):
         if(len(self.gio_hang) > 0):
-            product = []
+            products = []
             totalprice = 0
             for hang  in self.gio_hang:
                 print(hang[0].to_dict())
                 totalprice += hang[0].price * hang[1]
-                product.append({"productId": hang[0].id , "quantity": hang[1]})
+                products.append({"productId": hang[0].id , "quantity": hang[1]})
             shippingfee = totalprice * 0.1
             hoadon = {
                 "userId": self.user.get("id"),
                 "address": "none",
                 "totalPrice": totalprice,
                 "shippingFee": shippingfee,
-                "products": product
+                "products": products
             }
-            with open("order.json", "w", encoding= 'utf-8') as f:
-                json.dump(hoadon, f, indent= 4, ensure_ascii= False)
-            print("Xuất hóa đơn thành công!")
-            print(hoadon)
+            res = requests.post(f"http://localhost:3000/order", json= hoadon)
+            self.DanhSachOrder.LayDanhSachOrderTuDB()
+            # print(tmp.__dict__)
+            # with open("order.json", "w", encoding= 'utf-8') as f:
+            #     json.dump(hoadon, f, indent= 4, ensure_ascii= False)
+            # print("Xuất hóa đơn thành công!")
+            
+            # print(tmp.__dict__)
+            # print(hoadon)
             print(self.user)
-            self.DanhSach.GhiDanhSachVaoJson()
+            self.DanhSachHangHoa.GhiDanhSachVaoJson()
             self.gio_hang.clear()
             self.CapNhatGioHang()
+            self.DanhSachHangHoa.UpdateDuLieuProductVaoDB()
+            print("Update thành công!")
             print("Đặt hàng thành công!")
         else:
             print("không có hàng trong giỏ hàng!")
@@ -128,8 +137,3 @@ class ProductWindow(tk.Frame):
             print("Xóa hàng thành công")
         else:
             print("Giỏ hàng trống!")
-
-# if __name__ == "__main__":
-#     root = tk.Tk()
-#     app = ProductWindow(root)
-#     root.mainloop()

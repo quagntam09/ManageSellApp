@@ -1,12 +1,79 @@
-{
-    "userId": "001",
-    "address": "none",
-    "totalPrice": 5000,
-    "shippingFee": 500.0,
-    "products": [
-        {
-            "productId": "cm9n09kpe0000vcn827z7fm9v",
-            "quantity": 1
-        }
-    ]
-}
+[
+    {
+        "id": "cm9zoguky0000vcesg55hambe",
+        "userId": "4fbcdb72-39b6-4754-a8e7-452dcd9bb8e0",
+        "shipperId": null,
+        "address": "HCM",
+        "totalPrice": 65000,
+        "shippingFee": 6500,
+        "creatAt": "2025-04-27T13:21:04.210Z",
+        "status": "PENDING",
+        "paymentStatus": "UNPAID"
+    },
+    {
+        "id": "cm9zojvz00000vcusd985zkx2",
+        "userId": "4fbcdb72-39b6-4754-a8e7-452dcd9bb8e0",
+        "shipperId": null,
+        "address": "HCM",
+        "totalPrice": 75000,
+        "shippingFee": 7500,
+        "creatAt": "2025-04-27T13:23:25.980Z",
+        "status": "PENDING",
+        "paymentStatus": "UNPAID"
+    },
+    {
+        "id": "cm9zomjp90003vcus7gswpkte",
+        "userId": "4fbcdb72-39b6-4754-a8e7-452dcd9bb8e0",
+        "shipperId": null,
+        "address": "HCM",
+        "totalPrice": 140000,
+        "shippingFee": 14000,
+        "creatAt": "2025-04-27T13:25:30.044Z",
+        "status": "PENDING",
+        "paymentStatus": "UNPAID"
+    },
+    {
+        "id": "cm9zomjqz0007vcusg1wachnk",
+        "userId": "4fbcdb72-39b6-4754-a8e7-452dcd9bb8e0",
+        "shipperId": null,
+        "address": "HCM",
+        "totalPrice": 140000,
+        "shippingFee": 14000,
+        "creatAt": "2025-04-27T13:25:30.108Z",
+        "status": "PENDING",
+        "paymentStatus": "UNPAID"
+    },
+    {
+        "id": "cm9zop1yb000bvcusun96lj48",
+        "userId": "4fbcdb72-39b6-4754-a8e7-452dcd9bb8e0",
+        "shipperId": null,
+        "address": "HCM",
+        "totalPrice": 75000,
+        "shippingFee": 7500,
+        "creatAt": "2025-04-27T13:27:27.011Z",
+        "status": "PENDING",
+        "paymentStatus": "UNPAID"
+    },
+    {
+        "id": "cm9zp063z000evcusnjcfaspk",
+        "userId": "4fbcdb72-39b6-4754-a8e7-452dcd9bb8e0",
+        "shipperId": null,
+        "address": "none",
+        "totalPrice": 70000,
+        "shippingFee": 7000,
+        "creatAt": "2025-04-27T13:36:05.612Z",
+        "status": "PENDING",
+        "paymentStatus": "UNPAID"
+    },
+    {
+        "id": "cm9zp4d2k000hvcusfgmv5rfu",
+        "userId": "4fbcdb72-39b6-4754-a8e7-452dcd9bb8e0",
+        "shipperId": null,
+        "address": "none",
+        "totalPrice": 75000,
+        "shippingFee": 7500,
+        "creatAt": "2025-04-27T13:39:21.260Z",
+        "status": "PENDING",
+        "paymentStatus": "UNPAID"
+    }
+]
