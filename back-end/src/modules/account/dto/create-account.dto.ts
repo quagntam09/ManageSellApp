@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateAccountDto {
 
@@ -13,15 +13,6 @@ export class CreateAccountDto {
     @IsNotEmpty()
     @IsString()
     role_id: string;
-
-    @IsString()
-    @IsNotEmpty()
-    phone: string;
-
-    @IsString()
-    @IsNotEmpty()
-    name: string;
-
     
 
 }

@@ -1,24 +1,39 @@
 import { PrismaClient } from '@prisma/client';
 import 'dotenv/config';
 import { roles } from '../src/configs/config.json';
-import * as bcrypt from 'bcryptjs'; // Thêm thư viện bcrypt để mã hóa mật khẩu
+import * as bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 async function main() {
   const adminPassword = process.env.ADMIN_PASS;
   if (!adminPassword) {
-    throw new Error("❌ Thiếu biến ADMIN_PASSWORD trong .env");
+    throw new Error("❌ Thiếu biến ADMIN_PASS trong .env");
   }
 
+  console.log('🔄 Đang seed roles...');
+  for (const role of roles) {
+    await prisma.role.upsert({
+      where: { id: role.role_id },
+      update: {},
+      create: {
+        id: role.role_id,
+        role_name: role.role_name,
+      },
+    });
+  }
+  console.log('✅ Seed roles thành công!');
+
+  console.log('🔄 Đang seed admin account...');
   const hashedPassword = await bcrypt.hash(adminPassword, 10);
+
   const account = await prisma.account.upsert({
     where: { id: 'quagntam09' },
     update: {},
     create: {
       id: 'quagntam09',
       password: hashedPassword,
-      roleId: "1000",
+      roleId: '1000', 
     },
   });
 
@@ -35,17 +50,6 @@ async function main() {
   });
 
   console.log('✅ Seed admin thành công!');
-  for (const role of roles) {
-    await prisma.role.upsert({
-      where: { id: role.role_id },
-      update: {},
-      create: {
-        role_name: role.role_name,
-        id: role.role_id
-      }
-    });
-  }
-  console.log('Seeded role thành công');
 }
 
 main()

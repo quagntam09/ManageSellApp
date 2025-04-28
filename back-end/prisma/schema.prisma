@@ -28,8 +28,9 @@ model Role {
 model User {
   id        String @id @default(uuid())
   user_name String
-  phone     String @unique
+  phone     String?
   vip       Int    @default(0)
+  email     String?
 
   account   Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId String?  @unique
@@ -39,7 +40,8 @@ model User {
 model Shipper {
   id              String @id @default(uuid())
   shipper_name    String
-  phone           String @unique
+  email           String? 
+  phone           String?
   deliveredOrders Int    @default(0)
   totalEarnings   Float  @default(0.0)
 

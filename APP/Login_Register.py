@@ -57,57 +57,101 @@ class RegisterWindow(tk.Frame):
         self.build_ui()
 
     def build_ui(self):
-        row = 0 
-
-        tk.Label(self, text="Tài Khoản:").grid(row=row, column=0, sticky="e", padx=10, pady=5)
-        self.id_entry = tk.Entry(self)
-        self.id_entry.grid(row=row, column=1, columnspan=2)
+        label_options = {"bg": "#f0f2f5", "fg": "#333", "font": ("Times", 11)}
+        entry_options = {"width": 30, "bg": "white", "bd": 1, "relief": "solid", "font": ("Times", 11)}
+        
+        row = 0
+        self.id_error = tk.Label(self, text="", fg="red", bg="#f0f2f5", font=("Times", 8))
+        self.id_error.grid(row=row, column=1, columnspan=2, sticky="w", padx=(0, 20))
+        row += 1
+        tk.Label(self, text="Tài Khoản:", **label_options).grid(row=row, column=0, sticky="e", padx=10, pady=8)
+        self.id_entry = tk.Entry(self, **entry_options)
+        self.id_entry.grid(row=row, column=1, columnspan=2, padx=(0, 20), sticky="w")
 
         row += 1
-        tk.Label(self, text="Mật khẩu:").grid(row=row, column=0, sticky="e", padx=10, pady=5)
-        self.password_entry = tk.Entry(self, show="*")
-        self.password_entry.grid(row=row, column=1, columnspan=2)
+        self.pass_error = tk.Label(self, text="", fg="red", bg="#f0f2f5", font=("Times", 8))
+        self.pass_error.grid(row=row, column=1, columnspan=2, sticky="w", padx=(0, 20))
+        row += 1
+        tk.Label(self, text="Mật khẩu:", **label_options).grid(row=row, column=0, sticky="e", padx=10, pady=8)
+        self.password_entry = tk.Entry(self, show="*", **entry_options)
+        self.password_entry.grid(row=row, column=1, columnspan=2, padx=(0, 20), sticky="w")
+
+        # row += 1
+        # tk.Label(self, text="Số điện thoại:", **label_options).grid(row=row, column=0, sticky="e", padx=10, pady=8)
+        # self.phone_entry = tk.Entry(self, **entry_options)
+        # self.phone_entry.grid(row=row, column=1, columnspan=2, padx=(0, 20), sticky="w")
+
+        # row += 1
+        # tk.Label(self, text="Tên người dùng:", **label_options).grid(row=row, column=0, sticky="e", padx=10, pady=8)
+        # self.name_entry = tk.Entry(self, **entry_options)
+        # self.name_entry.grid(row=row, column=1, columnspan=2, padx=(0, 20), sticky="w")
+
+        # row += 1
+        # tk.Label(self, text="Email:", **label_options).grid(row=row, column=0, sticky="e", padx=10, pady=8)
+        # self.email_entry = tk.Entry(self, **entry_options)
+        # self.email_entry.grid(row=row, column=1, columnspan=2, padx=(0, 20), sticky="w")
 
         row += 1
-        tk.Label(self, text="Số điện thoại:").grid(row=row, column=0, sticky="e", padx=10, pady=5)
-        self.phone_entry = tk.Entry(self)
-        self.phone_entry.grid(row=row, column=1, columnspan=2)
+        self.register_button = tk.Button(self, text="Đăng ký", command=self.register,
+                                         bg="#4CAF50", fg="white", font=("Times", 11, "bold"), bd=0, padx=10, pady=5)
+        self.register_button.grid(row=row, column=0, columnspan=3, pady=(15,5))
+        
 
         row += 1
-        tk.Label(self, text="Tên người dùng:").grid(row=row, column=0, sticky="e", padx=10, pady=5)
-        self.name_entry = tk.Entry(self)
-        self.name_entry.grid(row=row, column=1, columnspan=2)
-
-
-        row += 1
-        self.register_button = tk.Button(self, text="Đăng ký", command=self.register)
-        self.register_button.grid(row=row, column=0, columnspan=3, pady=10)
-
-        row += 1
-        tk.Button(self, text="Quay lại", command=lambda: self.controller.show_frame("OpenWindow")).grid(row=row, column=0, columnspan=3)
+        tk.Button(self, text="Quay lại", command=lambda: self.controller.show_frame("OpenWindow"),
+                  bg="#2196F3", fg="white", font=("Times", 11, "bold"), bd=0, padx=10, pady=5).grid(row=row, column=0, columnspan=3, pady=(0,15))
 
     def register(self):
+        has_error = False
         id = self.id_entry.get()
+        if not id:
+            self.id_error.config(text="Vui lòng nhập tài khoản")
+            has_error = True
+        else:
+            self.id_error.config(text="")
         password = self.password_entry.get()
-        phone = self.phone_entry.get()
-        name = self.name_entry.get()
+        if not password:
+            self.pass_error.config(text="Vui lòng điền mật khẩu")
+            has_error = True
+        else:
+            self.pass_error.config(text="")
 
-        if not id or not password or not phone or not name:
-            messagebox.showwarning("Thiếu thông tin", "Vui lòng nhập đầy đủ các trường.")
+        account = {
+            "id": id,
+            "password": password,
+            "role_id": "1001"
+        }
+        res = requests.post("http://localhost:3000/account", json= account)
+        data = res.json()
+        print(data)
+        if not has_error:
+            messagebox.showwarning("Thông báo", "Đăng kí thành công!")
             return
-        try:
-            res = requests.post("http://localhost:3000/account", json={
-                "id": id,
-                "password": password,
-                "phone": phone,
-                "name": name,
-                "role_id": "1001"
-            })
+        # phone = self.phone_entry.get()
+        # name = self.name_entry.get()
+        # email = self.email_entry.get()
+        # if not id or not password or not phone or not name:
+        #     messagebox.showwarning("Thiếu thông tin", "Vui lòng nhập đầy đủ các trường.")
+        #     return
+        # if not IsEmail(email):
+        #     messagebox.showwarning("Sai định dạng", "Email không đúng!")
+        # if not IsPhone(phone):
+        #     messagebox.showwarning("Sai định dạng", "Số điện thoại không đúng!")
 
-            if res.status_code == 201:
-                messagebox.showinfo("Thành công", "Đăng ký thành công!")
-            else:
-                messagebox.showerror("Thất bại", f"Lỗi: {res.json().get('message')}")
-        except Exception as e:
-            messagebox.showerror("Lỗi kết nối", str(e))
+        # try:
+        #     res = requests.post("http://localhost:3000/account", json={
+        #         "id": id,
+        #         "password": password,
+        #         "phone": phone,
+        #         "name": name,
+        #         "role_id": "1001"
+        #         ""
+        #     })
+
+        #     if res.status_code == 201:
+        #         messagebox.showinfo("Thành công", "Đăng ký thành công!")
+        #     else:
+        #         messagebox.showerror("Thất bại", f"Lỗi: {res.json().get('message')}")
+        # except Exception as e:
+        #     messagebox.showerror("Lỗi kết nối", str(e))
 

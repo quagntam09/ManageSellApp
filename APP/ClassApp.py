@@ -1,18 +1,13 @@
 import requests
 import json
 class User:
-    def __init__(self, id, user_name, phone, vip, accountId):
+    def __init__(self, id, user_name, phone, vip, email, accountId):
         self.id = id
         self.user_name = user_name
         self.phone = phone
         self.vip = vip
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "user_name": self.user_name,
-            "phone": self.phone,
-            "vip": self.vip
-        }
+        self.email = email
+        self.accountId = accountId
     def to_dict_update(self):
         return {
             "user_name": self.user_name,
@@ -25,6 +20,38 @@ class User:
             print("Update User Thành Công!")
         else:
             print("Update User Gặp Lỗi!")
+
+class DanhSachUser:
+    def __init__(self):
+        self.Users = []
+    def ghiJsonAccount(self):
+        with open("users.json","w", encoding= 'utf-8') as f:
+            data = [user.__dict__ for user in self.Users]
+            json.dump(data, f, indent= 4, ensure_ascii= False)
+    def LayDBTuServer(self):
+        res = requests.get(f"http://localhost:3000/user")
+        if res.status_code == 200:
+            print("Get User Thành Công!")
+            print(res.json())
+        else:
+            print("Update User Gặp Lỗi!")
+
+class Account:
+    def __init__(self, id, password, roleId):
+        self.id = id
+        self.password = password
+        self.roleId = roleId
+class DanhSachAccount:
+    def __init__(self):
+        self.Accounts = []
+    def ghiJsonAccount(self):
+        with open("accounts.json","w", encoding= 'utf-8') as f:
+            data = [account.__dict__ for account in self.Accounts]
+            json.dump(data, f, indent= 4, ensure_ascii= False)
+    # def docJsonAccount(self):
+    #     with open("accounts.json", "r", encoding= 'utf-8') as f:
+    #         data = json.load(f)
+    #         self.Accounts = [Account(**ac) for ac in data]
 
 
 
