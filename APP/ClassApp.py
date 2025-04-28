@@ -8,23 +8,27 @@ class User:
         self.vip = vip
         self.email = email
         self.accountId = accountId
-    def to_dict_update(self):
-        return {
-            "user_name": self.user_name,
-            "phone": self.phone,
-            "vip": self.vip
-        }
-    def update(self):
-        response = requests.patch(f"http://localhost:3000/user/{self.id}", json= self.to_dict_update())
-        if response.status_code == 200:
-            print("Update User Thành Công!")
-        else:
-            print("Update User Gặp Lỗi!")
+    
+    
+    # def to_dict_update(self):
+    #     return {
+    #         "user_name": self.user_name,
+    #         "phone": self.phone,
+    #         "vip": self.vip
+    #     }
+    # def update(self):
+    #     response = requests.patch(f"http://localhost:3000/user/{self.id}", json= self.to_dict_update())
+    #     if response.status_code == 200:
+    #         print("Update User Thành Công!")
+    #     else:
+    #         print("Update User Gặp Lỗi!")
 
 class DanhSachUser:
     def __init__(self):
         self.Users = []
-    def ghiJsonAccount(self):
+        self.LayDBTuServer()
+        self.ghiJsonUser()
+    def ghiJsonUser(self):
         with open("users.json","w", encoding= 'utf-8') as f:
             data = [user.__dict__ for user in self.Users]
             json.dump(data, f, indent= 4, ensure_ascii= False)
@@ -32,9 +36,11 @@ class DanhSachUser:
         res = requests.get(f"http://localhost:3000/user")
         if res.status_code == 200:
             print("Get User Thành Công!")
-            print(res.json())
+            data = res.json()
+            # print(res.json())
+            self.Users = [User(**us) for us in data]
         else:
-            print("Update User Gặp Lỗi!")
+            print("Get User Gặp Lỗi!")
 
 class Account:
     def __init__(self, id, password, roleId):
@@ -44,6 +50,8 @@ class Account:
 class DanhSachAccount:
     def __init__(self):
         self.Accounts = []
+        self.LayDBTuServer()
+        self.ghiJsonAccount()
     def ghiJsonAccount(self):
         with open("accounts.json","w", encoding= 'utf-8') as f:
             data = [account.__dict__ for account in self.Accounts]
@@ -52,7 +60,15 @@ class DanhSachAccount:
     #     with open("accounts.json", "r", encoding= 'utf-8') as f:
     #         data = json.load(f)
     #         self.Accounts = [Account(**ac) for ac in data]
-
+    def LayDBTuServer(self):
+        res = requests.get(f"http://localhost:3000/account")
+        if res.status_code == 200:
+            print("Get Accounts Thành Công!")
+            data = res.json()
+            # print(res.json())
+            self.Accounts = [Account(**ac) for ac in data]
+        else:
+            print("Get Accounts Gặp Lỗi!")
 
 
 # class Shipper:

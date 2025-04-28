@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox,ttk
 import bcrypt
 from UserWindow import UserWindow
+from ClassApp import DanhSachAccount, DanhSachUser
 class LoginWinDow(tk.Frame):
     def __init__(self, master, controller):
         super().__init__(master)
@@ -24,8 +25,11 @@ class LoginWinDow(tk.Frame):
 
     def login(self):
         id = self.Id_entry.get()
+        self.DanhSachAccounts = DanhSachAccount()
+        self.DanhSachUsers = DanhSachUser()
         password = self.password_entry.get()
-
+        for ac in self.DanhSachAccounts.Accounts:
+            print(ac.__dict__)
         try:
             res = requests.get(f"http://localhost:3000/account/{id}")
             data = res.json()
@@ -103,6 +107,7 @@ class RegisterWindow(tk.Frame):
 
     def register(self):
         has_error = False
+        self.DanhSachAccounts = DanhSachAccount()
         id = self.id_entry.get()
         if not id:
             self.id_error.config(text="Vui lòng nhập tài khoản")
@@ -115,7 +120,10 @@ class RegisterWindow(tk.Frame):
             has_error = True
         else:
             self.pass_error.config(text="")
-
+        for ac in self.DanhSachAccounts.Accounts:
+            if ac.id == id:
+                self.id_error.config(text=f"Tài khoản {id} đã tồn tại")
+                has_error = True
         account = {
             "id": id,
             "password": password,
@@ -126,7 +134,8 @@ class RegisterWindow(tk.Frame):
         print(data)
         if not has_error:
             messagebox.showwarning("Thông báo", "Đăng kí thành công!")
-            return
+            self.id_entry.delete(0,tk.END)
+            self.password_entry.delete(0, tk.END)
         # phone = self.phone_entry.get()
         # name = self.name_entry.get()
         # email = self.email_entry.get()

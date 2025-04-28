@@ -1,6 +1,5 @@
 import tkinter as tk
 from Login_Register import LoginWinDow, RegisterWindow
-
 class OpenWindow(tk.Frame):
     def __init__(self, master, controller):
         super().__init__(master)

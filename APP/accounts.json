@@ -1,0 +1,42 @@
+[
+    {
+        "id": "",
+        "password": "$2b$10$6WX0T/x5ShQqjTJjL78.Mua6M8WPktpjf3tHTDY4fVfQjPTBBCxlK",
+        "roleId": "1001"
+    },
+    {
+        "id": "111",
+        "password": "$2b$10$ms5sPvX2Gx4H6w.XAASGlOvZLO8JhlCgdEciDO8V/x9nUG12Y1F0m",
+        "roleId": "1001"
+    },
+    {
+        "id": "1122",
+        "password": "$2b$10$yRkPANYJno96LnFJ8qAGu.MmRzZplzTxCN5eFKtCFbSn.cLRRNMtO",
+        "roleId": "1001"
+    },
+    {
+        "id": "1234",
+        "password": "$2b$10$jHp43sYmqF7fDSO5HYCli.7tGQ.9Qy87oFW.b6fZKVWYeL8pVjdqu",
+        "roleId": "1001"
+    },
+    {
+        "id": "999",
+        "password": "$2b$10$IJgdyEapRsZAd5qq7ce0e.7/NkEGandHLSNu56Wz9OR09gVa5ZiT2",
+        "roleId": "1001"
+    },
+    {
+        "id": "newtk",
+        "password": "$2b$10$Hg6wBQIUGbqF/RjtPmh2GOKOHtuipZcqDV0VxswwsFpVqMN/RfwOi",
+        "roleId": "1001"
+    },
+    {
+        "id": "quagntam09",
+        "password": "$2b$10$.o8MCwdj9ZlvrNMhRgEJVuQ5OK2EpfySNMAxTsL3QbHb3/.yaduUm",
+        "roleId": "1000"
+    },
+    {
+        "id": "taikhoan1",
+        "password": "$2b$10$wika1l3SqGIQj6lQ5AFzxeyVbN/Uv8v6ETMjxVtxWzTptuoKAklI2",
+        "roleId": "1001"
+    }
+]

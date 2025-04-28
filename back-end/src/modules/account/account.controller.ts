@@ -15,4 +15,9 @@ export class AccountController {
   getAccountById(@Param("id") id: string){
     return this.accountService.getAccountById(id);
   }
+
+  @Get()
+  getAllAccounts(){
+    return this.accountService.getAllAccounts();
+  }
 }

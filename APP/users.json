@@ -1,0 +1,34 @@
+[
+    {
+        "id": "a6c4493a-8f9d-45bc-b300-04c53066e47c",
+        "user_name": "user4",
+        "phone": null,
+        "vip": 0,
+        "email": null,
+        "accountId": "1234"
+    },
+    {
+        "id": "af5a1e1c-b333-4394-a5ea-f3c421691ece",
+        "user_name": "user1",
+        "phone": null,
+        "vip": 0,
+        "email": null,
+        "accountId": "taikhoan1"
+    },
+    {
+        "id": "b619412b-73b4-4db8-aaa1-6ea58fb8bb08",
+        "user_name": "user2",
+        "phone": null,
+        "vip": 0,
+        "email": null,
+        "accountId": ""
+    },
+    {
+        "id": "c9e21219-5901-47cb-9716-c0abd8aa69c2",
+        "user_name": "user3",
+        "phone": null,
+        "vip": 0,
+        "email": null,
+        "accountId": "999"
+    }
+]

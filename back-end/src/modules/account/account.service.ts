@@ -78,5 +78,9 @@ export class AccountService {
   async getAccountById(id: string){
     return this.prisma.account.findUnique({where: {id}});
   }
+
+  async getAllAccounts(){
+    return this.prisma.account.findMany();
+  }
   
 }
