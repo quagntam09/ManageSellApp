@@ -22,15 +22,4 @@ export class ProductService {
   getProductById(id: string){
     return this.prisma.product.findUnique({where: {id}})
   }
-
-  async updateProduct(data: UpdateProductDto[]){
-    await Promise.all(
-      data.map(({id, ...data}) =>
-        this.prisma.product.update({
-          where: {id},
-          data: data,
-        })
-      )
-    )
-  }
 }

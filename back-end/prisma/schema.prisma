@@ -19,17 +19,17 @@ enum PaymentStatus {
 }
 
 model Role {
-  id        String    @id
+  id        String @id
   role_name String @unique @db.VarChar(50)
 
   account Account[]
 }
 
 model User {
-  id        String @id @default(uuid())
+  id        String  @id @default(uuid())
   user_name String
   phone     String?
-  vip       Int    @default(0)
+  vip       Int     @default(0)
   email     String?
 
   account   Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
@@ -38,12 +38,12 @@ model User {
 }
 
 model Shipper {
-  id              String @id @default(uuid())
+  id              String  @id @default(uuid())
   shipper_name    String
-  email           String? 
+  email           String?
   phone           String?
-  deliveredOrders Int    @default(0)
-  totalEarnings   Float  @default(0.0)
+  deliveredOrders Int     @default(0)
+  totalEarnings   Float   @default(0.0)
 
   account   Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId String?  @unique
@@ -69,14 +69,24 @@ model Account {
 }
 
 model Product {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   name        String
   description String
   price       Float
   stock       Int
-  category    String
+  categoryId  String
+  img         String?
+  rate        Float
 
+  category     Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   orderDetails OrderDetail[]
+}
+
+model Category {
+  id   String @id
+  name String @unique
+
+  products Product[]
 }
 
 model Order {
