@@ -71,68 +71,41 @@ class DanhSachAccount:
             print("Get Accounts Gặp Lỗi!")
 
 
-# class Shipper:
-#     def __init__(self, id, shipper_name, phone, password):
-#         self.id = id
-#         self.shipper_name = shipper_name
-#         self.phone = phone
-#         self.password = password
-#         self.apiShipper = "http://localhost:3000/shipper"
-#         self.deliveredOrders = 0
-#         self.totalEarnings = 0
-#     def to_dict_creat(self):
-#         return {
-#             "id": self.id,
-#             "shipper_name": self.shipper_name,
-#             "phone": self.phone,
-#             "password": self.password
-#         }
-#     def to_dict_update(self):
-#         return {
-#             "shipper_name": self.shipper_name,
-#             "phone": self.phone,
-#             "deliveredOrders": self.deliveredOrders,
-#             "totalEarnings": self.totalEarnings
-#         }
-#     def GetShipperById(self):
-#         request = requests.get(self.apiShipper + f"/{self.id}")
-#         return request.json()
-#     def CreateShipper(self):   
-#         request = requests.post(self.apiShipper,json= self.to_dict_creat())
-#         return request.json()
-#     def UpdateShipper(self, newdata = {}):
-#         self.shipper_name= newdata.get("shipper_name", self.shipper_name)
-#         self.phone = newdata.get("phone", self.phone)
-#         self.deliveredOrders = newdata.get("deliveredOrders", self.deliveredOrders)
-#         self.totalEarnings = newdata.get("totalEarnings", self.totalEarnings)
-
-
-#         request = requests.patch(self.apiShipper + f"/{self.id}", json= self.to_dict_update())
-#         return request.json()
-#     def DeleteShipper(self):
-#         request = requests.delete(self.apiShipper + f"/{self.id}")
-#         return request.json()
-
-
 
 class Product:
-    def __init__(self, id, name, description, price, stock, category):
+    def __init__(self, id, name, description, price, stock, categoryId, img, rate):
         self.id = id
         self.name = name
         self.description = description
         self.price = price
         self.stock = stock
-        self.category = category
+        self.categoryId = categoryId
+        self.img = img
+        self.rate = rate
     def to_dict(self):
         return {
-            "id": self.id,
             "name": self.name,
-            "description": self.description,
-            "price": self.price,
-            "stock": self.stock,
-            "category": self.category
+            "img": self.img
         }
-    
+class DanhSachProduct:
+    def __init__(self):
+        self.ProDucts = []
+        self.layDBTuServer()
+        self.ghiJsonProduct()
+    def ghiJsonProduct(self):
+        with open("products.json","w", encoding= 'utf-8') as f:
+            data = [p.__dict__ for p in self.ProDucts]
+            json.dump(data, f, indent= 4, ensure_ascii= False)
+    def layDBTuServer(self):
+        res = requests.get("http://localhost:3000/product")
+        if res.status_code == 200:
+            print("Lấy products thành công!")
+            data = res.json()
+            self.ProDucts = [Product(**p) for p in data]
+        else:
+            print("Lỗi get product!")
+    def get_all(self):
+        return [p.to_dict() for p in self.ProDucts]
 class Order:
     def __init__(self, id, createdAt, address, status, totalPrice, shippingFee, paymentStatus, userId, shipperId):
         self.id = id
