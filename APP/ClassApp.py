@@ -85,7 +85,9 @@ class Product:
     def to_dict(self):
         return {
             "name": self.name,
-            "img": self.img
+            "img": self.img,
+            "price": self.price,
+            "categoryId": self.categoryId
         }
 class DanhSachProduct:
     def __init__(self):
